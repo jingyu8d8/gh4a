@@ -157,16 +157,9 @@ public class GistActivity extends BaseActivity implements View.OnClickListener {
         startActivity(GistViewerActivity.makeIntent(this, mGistId, file.getFilename()));
     }
 
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem starItem = menu.add(0, R.id.star, 0, R.string.repo_star_action)
-                .setIcon(R.drawable.star);
-        MenuItemCompat.setShowAsAction(starItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
-
-        if (mGist != null) {
-            MenuItem shareItem = menu.add(0, R.id.share, 0, R.string.share)
-                    .setIcon(R.drawable.social_share);
-            MenuItemCompat.setShowAsAction(shareItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
-        }
+        getMenuInflater().inflate(R.menu.gist_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -188,6 +181,10 @@ public class GistActivity extends BaseActivity implements View.OnClickListener {
                 starAction.setTitle(R.string.repo_star_action);
                 starAction.setIcon(R.drawable.star);
             }
+        }
+
+        if (mGist == null) {
+            menu.removeItem(R.id.share);
         }
 
         return super.onPrepareOptionsMenu(menu);
